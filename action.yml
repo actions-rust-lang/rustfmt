@@ -1,0 +1,53 @@
+name: "Check formatting of Rust code with rustfmt"
+description: |
+  Run `cargo fmt` and check Rust code.
+  Highlights places which are not correctly formatted.
+branding:
+  icon: "check-square"
+  color: "yellow"
+
+runs:
+  using: composite
+  steps:
+    - name: "Install rustfmt Problem Matcher"
+      shell: bash
+      run: echo "::add-matcher::${{ github.action_path }}/rust.json"
+    - name: Rustfmt Job Summary
+      shell: bash
+      run: |
+        # Run cargo and store the original output
+        CARGO_STATUS=0
+        CARGO_OUTPUT=$(cargo fmt --all -- --color=always --check 2>/dev/null) || CARGO_STATUS=$?
+
+        if [ ${CARGO_STATUS} -eq 0 ]; then
+            cat <<MARKDOWN_INTRO >> $GITHUB_STEP_SUMMARY
+        # Rustfmt Results
+
+        The code is formatted perfectly!
+        MARKDOWN_INTRO
+        else
+            cat <<MARKDOWN_INTRO >> $GITHUB_STEP_SUMMARY
+        # Rustfmt Results
+
+        \`cargo fmt\` reported formatting errors in the following locations.
+        You can fix them by executing the following command and committing the changes.
+        \`\`\`bash
+        cargo fmt --all
+        \`\`\`
+        MARKDOWN_INTRO
+
+            echo "${CARGO_OUTPUT}" |
+                # Strip color codes
+                sed 's/\x1B\[[0-9;]*[A-Za-z]//g' |
+                # Strip (some) cursor movements
+                sed 's/\x1B.[A-G]//g' |
+                tr "\n" "\r" |
+                # Wrap each location into a HTML details
+                sed -E 's#Diff in ([^\r]*?) at line ([[:digit:]]+):\r((:?[ +-][^\r]*\r)+)#<details>\n<summary>\1:\2</summary>\n\n```diff\n\3```\n\n</details>\n\n#g' |
+                tr "\r" "\n" >> $GITHUB_STEP_SUMMARY
+        fi
+
+        # Print the original cargo message
+        echo "${CARGO_OUTPUT}"
+        # Exit with the same status as cargo
+        exit "${CARGO_STATUS}"

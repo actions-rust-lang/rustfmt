@@ -9,9 +9,6 @@ branding:
 runs:
   using: composite
   steps:
-    - name: "Install rustfmt Problem Matcher"
-      shell: bash
-      run: echo "::add-matcher::${{ github.action_path }}/rust.json"
     - name: Rustfmt Job Summary
       shell: bash
       run: |

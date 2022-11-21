@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2022-11-21
+
+### Added
+
+* Add the input `manifest-path` to set the `--manifest-path` argument of rustfmt. #1
+    This allows formatting any cargo project in the repository independent of the location.
+
 ## [1.0.1] - 2022-10-13
 
 ### Changed

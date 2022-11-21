@@ -33,5 +33,15 @@ jobs:
         uses: actions-rust-lang/rustfmt@v1
 ```
 
+## Inputs
+
+All inputs are optional.
+If a [toolchain file](https://rust-lang.github.io/rustup/overrides.html#the-toolchain-file) (i.e., `rust-toolchain` or `rust-toolchain.toml`) is found in the root of the repository, it takes precedence.
+All input values are ignored if a toolchain file exists.
+
+| Name            | Description                                                              | Default      |
+| --------------- | ------------------------------------------------------------------------ | ------------ |
+| `manifest-path` | Path to the `Cargo.toml` file, by default in the root of the repository. | ./Cargo.toml |
+
 [`actions-rust-lang/setup-rust-toolchain`]: https://github.com/actions-rust-lang/setup-rust-toolchain
 [problem matcher]: https://github.com/actions/toolkit/blob/main/docs/problem-matchers.md

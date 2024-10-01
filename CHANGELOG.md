@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+* Parse the new rustfmt file and line number format
+
+    The format changed in https://github.com/rust-lang/rustfmt/pull/5971
+
+    Thanks to @0xcypher02 for pointing out the problem.
+
 ## [1.1.0] - 2022-11-21
 
 ### Added

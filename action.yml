@@ -41,12 +41,12 @@ runs:
 
             echo "${CARGO_OUTPUT}" |
                 # Strip color codes
-                sed 's/\x1B\[[0-9;]*[A-Za-z]//g' |
+                sed 's/\x1B\[[0-9;]*[A-Za-z]\x0f\?//g' |
                 # Strip (some) cursor movements
                 sed 's/\x1B.[A-G]//g' |
                 tr "\n" "\r" |
                 # Wrap each location into a HTML details
-                sed -E 's#Diff in ([^\r]*?) at line ([[:digit:]]+):\r((:?[ +-][^\r]*\r)+)#<details>\n<summary>\1:\2</summary>\n\n```diff\n\3```\n\n</details>\n\n#g' |
+                sed -E 's#Diff in ([^\r]*?)( at line |:)([[:digit:]]+):\r((:?[ +-][^\r]*\r)+)#<details>\n<summary>\1:\3</summary>\n\n```diff\n\4```\n\n</details>\n\n#g' |
                 tr "\r" "\n" >> $GITHUB_STEP_SUMMARY
         fi
 

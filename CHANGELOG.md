@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.2] - 2025-12-14
+
+### Fixed
+
+* Fixed a command injection vulnerability via the `manifest-path` input parameter.
+
+    The code was using GitHub action templates to inject the value directly into the shell command, which does not perform the necessary escaping.
+    For fixing the issue, the value is passed via an environment variable, which performs the proper escaping.
+    This is only an issue if the `manifest-path` parameter was set from some other untrusted source.
+    Using a static string to call the action is safe.
+
+    Thanks to @mleblebici for reporting and fixing the issue.
+
 ## [1.1.1] - 2024-10-01
 
 ### Fixed

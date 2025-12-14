@@ -17,10 +17,12 @@ runs:
   steps:
     - name: Rustfmt Job Summary
       shell: bash
+      env:
+        MANIFEST_PATH: ${{ inputs.manifest-path }}
       run: |
         # Run cargo and store the original output
         CARGO_STATUS=0
-        CARGO_OUTPUT=$(cargo fmt --all --manifest-path=${{ inputs.manifest-path }} -- --color=always --check 2>/dev/null) || CARGO_STATUS=$?
+        CARGO_OUTPUT=$(cargo fmt --all --manifest-path="$MANIFEST_PATH" -- --color=always --check 2>/dev/null) || CARGO_STATUS=$?
 
         if [ ${CARGO_STATUS} -eq 0 ]; then
             cat <<MARKDOWN_INTRO >> $GITHUB_STEP_SUMMARY

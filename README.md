@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       # Ensure rustfmt is installed and setup problem matcher
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: actions-rust-lang/setup-rust-toolchain@v2
         with:
           components: rustfmt
       - name: Rustfmt Check
